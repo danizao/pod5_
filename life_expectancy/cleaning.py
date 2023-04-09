@@ -4,7 +4,8 @@ import pandas as pd
 import argparse
 from pathlib import Path
 
-cwd = Path(__file__).parent.parent / "data"
+#cwd = Path(__file__).parent.parent / "data"
+cwd = os.getcwd()
 data_dir = os.path.join(cwd, 'data')
 
 
