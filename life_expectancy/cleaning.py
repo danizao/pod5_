@@ -31,7 +31,15 @@ def extract_numeric_values_from_column(df_: pd.DataFrame, column: str) -> pd.Dat
 
 def clean_data(data_dir: str, region: str = "PT") -> None:
     print(os.path.join(data_dir, "eu_life_expectancy_raw.tsv"))
-    df = pd.read_csv(os.path.join(data_dir, "eu_life_expectancy_raw.tsv"), sep="\t")
+     # Get the absolute path to the data directory
+    file_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(file_dir, 'data')
+    
+    # Load the raw data from the TSV file
+    file_path = os.path.join(data_dir, 'eu_life_expectancy_raw.tsv')
+    df = pd.read_csv(file_path, sep='\t')
+
+    #df = pd.read_csv(os.path.join(data_dir, "eu_life_expectancy_raw.tsv"), sep="\t")
     df = split_column(df)
     df = df.melt(id_vars=["unit", "sex", "age", "region"], var_name="year", value_name="value")
     df = extract_numeric_values_from_column(df, "value")
