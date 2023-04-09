@@ -57,5 +57,5 @@ if __name__ == '__main__': # pragma: no cover
     parser = argparse.ArgumentParser(description="Clean life expectancy data")
     parser.add_argument("--region", default="PT", help="Region code to clean data for")
     args = parser.parse_args()
-    data_dir = os.path.join(os.path.dirname(__file__), 'data')
-    clean_data(data_dir = data_dir, region = args.region.upper())
+    #data_dir = os.path.join(os.path.dirname(__file__), 'data')
+    clean_data(region = args.region.upper())
