@@ -29,7 +29,7 @@ def extract_numeric_values_from_column(df_: pd.DataFrame, column: str) -> pd.Dat
     return df
 
 
-def clean_data(data_dir: str, region: str = "PT") -> None:
+def clean_data(region: str = "PT") -> None:
     #print(os.path.join(data_dir, "eu_life_expectancy_raw.tsv"))
      # Get the absolute path to the data directory
     file_dir = os.path.dirname(os.path.abspath(__file__))
