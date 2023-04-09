@@ -5,7 +5,8 @@ import argparse
 #from pathlib import Path
 
 #cwd = Path(__file__).parent.parent / "data"
-cwd = os.getcwd()
+#cwd = os.getcwd()
+cwd = os.path.dirname(__file__)
 data_dir = os.path.join(cwd, 'data')
 
 
