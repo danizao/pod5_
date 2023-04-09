@@ -26,7 +26,8 @@ disable = [
    "missing-module-docstring",
    "invalid-name",
    "missing-function-docstring",
-   "wrong-import-order"
+   "wrong-import-order",
+   "trailing-whitespace"
    # Add any other checks you want to disable here
 ]
 

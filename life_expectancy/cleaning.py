@@ -5,8 +5,9 @@ import argparse
 #from pathlib import Path
 
 #cwd = Path(__file__).parent.parent / "data"
-cwd = os.getcwd()
-data_dir = os.path.join(cwd, 'data')
+#cwd = os.getcwd()
+#cwd = os.path.dirname(__file__)
+#data_dir = os.path.join(cwd, 'data')
 
 
 def split_column(df_: pd.DataFrame) -> pd.DataFrame:
@@ -29,7 +30,19 @@ def extract_numeric_values_from_column(df_: pd.DataFrame, column: str) -> pd.Dat
 
 
 def clean_data(region: str = "PT") -> None:
-    df = pd.read_csv(os.path.join(data_dir, "eu_life_expectancy_raw.tsv"), sep="\t")
+    #print(os.path.join(data_dir, "eu_life_expectancy_raw.tsv"))
+     # Get the absolute path to the data directory
+    file_dir = os.path.dirname(os.path.abspath(__file__))
+    print("this is the file_dir", file_dir)
+    data_dir = os.path.join(file_dir, 'data')
+    print("this is the data_dir", data_dir)
+    
+    # Load the raw data from the TSV file
+    file_path = os.path.join(data_dir, 'eu_life_expectancy_raw.tsv')
+    print("this is the file_path", file_path)
+    df = pd.read_csv(file_path, sep='\t')
+
+    #df = pd.read_csv(os.path.join(data_dir, "eu_life_expectancy_raw.tsv"), sep="\t")
     df = split_column(df)
     df = df.melt(id_vars=["unit", "sex", "age", "region"], var_name="year", value_name="value")
     df = extract_numeric_values_from_column(df, "value")
@@ -44,5 +57,5 @@ if __name__ == '__main__': # pragma: no cover
     parser = argparse.ArgumentParser(description="Clean life expectancy data")
     parser.add_argument("--region", default="PT", help="Region code to clean data for")
     args = parser.parse_args()
-    clean_data(args.region.upper())
-    clean_data()
+    #data_dir = os.path.join(os.path.dirname(__file__), 'data')
+    clean_data(region = args.region.upper())

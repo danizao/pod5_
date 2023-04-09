@@ -34,6 +34,5 @@ jobs:
       run: |
         pylint life_expectancy/cleaning.py
     - name: Test with pytest
-      working-directory: life_expectancy/tests
       run: |
-        pytest test_cleaning.py
+        pytest life_expectancy/tests/test_cleaning.py
