@@ -36,4 +36,4 @@ jobs:
     - name: Test with pytest
       working-directory: life_expectancy/tests
       run: |
-        pytest life_expectancy
+        pytest cleaning.py
