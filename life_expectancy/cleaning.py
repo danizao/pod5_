@@ -29,7 +29,7 @@ def extract_numeric_values_from_column(df_: pd.DataFrame, column: str) -> pd.Dat
     return df
 
 
-def clean_data(region: str = "PT") -> None:
+def clean_data(data_dir: str, region: str = "PT") -> None:
     df = pd.read_csv(os.path.join(data_dir, "eu_life_expectancy_raw.tsv"), sep="\t")
     df = split_column(df)
     df = df.melt(id_vars=["unit", "sex", "age", "region"], var_name="year", value_name="value")
