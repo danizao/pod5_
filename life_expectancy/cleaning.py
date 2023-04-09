@@ -30,6 +30,7 @@ def extract_numeric_values_from_column(df_: pd.DataFrame, column: str) -> pd.Dat
 
 
 def clean_data(data_dir: str, region: str = "PT") -> None:
+    print(os.path.join(data_dir, "eu_life_expectancy_raw.tsv"))
     df = pd.read_csv(os.path.join(data_dir, "eu_life_expectancy_raw.tsv"), sep="\t")
     df = split_column(df)
     df = df.melt(id_vars=["unit", "sex", "age", "region"], var_name="year", value_name="value")
@@ -46,5 +47,4 @@ if __name__ == '__main__': # pragma: no cover
     parser.add_argument("--region", default="PT", help="Region code to clean data for")
     args = parser.parse_args()
     data_dir = os.path.join(os.path.dirname(__file__), 'data')
-    clean_data(args.region.upper())
-    clean_data()
+    clean_data(data_dir = data_dir, region = args.region.upper())
