@@ -53,7 +53,7 @@ def clean_data(df_: pd.DataFrame, region: str = "PT") -> None:
     #df.to_csv(os.path.join(data_dir, "pt_life_expectancy.csv"), index=False)
     return df
 
-def main():
+def main(args):
     
     df = load_data()
     df_cleaned = clean_data(df, region = args.region.upper())
