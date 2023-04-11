@@ -55,9 +55,9 @@ def clean_data(df_: pd.DataFrame, region: str = "PT") -> None:
 
 def main():
     
-    df = load_data(data_dir)
+    df = load_data()
     df_cleaned = clean_data(df, region = args.region.upper())
-    save_data(df_cleaned, data_dir)
+    save_data(df_cleaned)
 
 
 if __name__ == '__main__': # pragma: no cover
