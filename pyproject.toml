@@ -27,7 +27,8 @@ disable = [
    "invalid-name",
    "missing-function-docstring",
    "wrong-import-order",
-   "trailing-whitespace"
+   "trailing-whitespace",
+   "redefined-outer-name"
    # Add any other checks you want to disable here
 ]
 
