@@ -2,12 +2,13 @@ import os
 import numpy as np
 import pandas as pd
 import argparse
-#from pathlib import Path
 
-#cwd = Path(__file__).parent.parent / "data"
-#cwd = os.getcwd()
-#cwd = os.path.dirname(__file__)
-#data_dir = os.path.join(cwd, 'data')
+
+# Determines the absolute path of the directory we are working on 
+file_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Determines the relative path of the directory we are working on
+data_dir = os.path.join(file_dir, 'data')
 
 
 def split_column(df_: pd.DataFrame) -> pd.DataFrame:
@@ -28,21 +29,20 @@ def extract_numeric_values_from_column(df_: pd.DataFrame, column: str) -> pd.Dat
     df[column] = pd.to_numeric(df[column], errors='coerce')
     return df
 
-
-def clean_data(region: str = "PT") -> None:
-    #print(os.path.join(data_dir, "eu_life_expectancy_raw.tsv"))
-     # Get the absolute path to the data directory
-    file_dir = os.path.dirname(os.path.abspath(__file__))
-    print("this is the file_dir", file_dir)
-    data_dir = os.path.join(file_dir, 'data')
-    print("this is the data_dir", data_dir)
+def load_data(data_dir: str) -> pd.DataFrame:
     
-    # Load the raw data from the TSV file
+    # Load the raw data from a TSV file
     file_path = os.path.join(data_dir, 'eu_life_expectancy_raw.tsv')
-    print("this is the file_path", file_path)
     df = pd.read_csv(file_path, sep='\t')
+    return df
 
-    #df = pd.read_csv(os.path.join(data_dir, "eu_life_expectancy_raw.tsv"), sep="\t")
+def save_data(df_: pd.DataFrame, data_dir: str) -> None:
+    df = df_.copy()
+    return df.to_csv(os.path.join(data_dir, "pt_life_expectancy.csv"), index=False)
+
+def clean_data(df_: pd.DataFrame, region: str = "PT") -> None:
+    
+    df = df_.copy()
     df = split_column(df)
     df = df.melt(id_vars=["unit", "sex", "age", "region"], var_name="year", value_name="value")
     df = extract_numeric_values_from_column(df, "value")
@@ -50,12 +50,18 @@ def clean_data(region: str = "PT") -> None:
     df["year"] = df["year"].astype(int)
     df["value"] = df["value"].astype(float)
     df = df[df.region == region]
-    df.to_csv(os.path.join(data_dir, "pt_life_expectancy.csv"), index=False)
+    #df.to_csv(os.path.join(data_dir, "pt_life_expectancy.csv"), index=False)
+    return df
+
+def main():
+    
+    df = load_data(data_dir)
+    df_cleaned = clean_data(df)
+    save_data(df_cleaned, data_dir)
 
 
 if __name__ == '__main__': # pragma: no cover
     parser = argparse.ArgumentParser(description="Clean life expectancy data")
     parser.add_argument("--region", default="PT", help="Region code to clean data for")
     args = parser.parse_args()
-    #data_dir = os.path.join(os.path.dirname(__file__), 'data')
-    clean_data(region = args.region.upper())
+    main(region = args.region.upper())
