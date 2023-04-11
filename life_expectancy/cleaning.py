@@ -29,14 +29,14 @@ def extract_numeric_values_from_column(df_: pd.DataFrame, column: str) -> pd.Dat
     df[column] = pd.to_numeric(df[column], errors='coerce')
     return df
 
-def load_data(data_dir: str) -> pd.DataFrame:
+def load_data() -> pd.DataFrame:
     
     # Load the raw data from a TSV file
     file_path = os.path.join(data_dir, 'eu_life_expectancy_raw.tsv')
     df = pd.read_csv(file_path, sep='\t')
     return df
 
-def save_data(df_: pd.DataFrame, data_dir: str) -> None:
+def save_data(df_: pd.DataFrame) -> None:
     df = df_.copy()
     return df.to_csv(os.path.join(data_dir, "pt_life_expectancy.csv"), index=False)
 
@@ -56,7 +56,7 @@ def clean_data(df_: pd.DataFrame, region: str = "PT") -> None:
 def main():
     
     df = load_data(data_dir)
-    df_cleaned = clean_data(df)
+    df_cleaned = clean_data(df, region = args.region.upper())
     save_data(df_cleaned, data_dir)
 
 
@@ -64,4 +64,4 @@ if __name__ == '__main__': # pragma: no cover
     parser = argparse.ArgumentParser(description="Clean life expectancy data")
     parser.add_argument("--region", default="PT", help="Region code to clean data for")
     args = parser.parse_args()
-    main(region = args.region.upper())
+    main()
