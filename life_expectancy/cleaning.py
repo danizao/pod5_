@@ -53,10 +53,10 @@ def clean_data(df_: pd.DataFrame, region: str = "PT") -> None:
     #df.to_csv(os.path.join(data_dir, "pt_life_expectancy.csv"), index=False)
     return df
 
-def main(args):
+def main(region: str = "PT"):
     
     df = load_data()
-    df_cleaned = clean_data(df, region = args.region.upper())
+    df_cleaned = clean_data(df, region = region)
     save_data(df_cleaned)
 
 
@@ -64,4 +64,4 @@ if __name__ == '__main__': # pragma: no cover
     parser = argparse.ArgumentParser(description="Clean life expectancy data")
     parser.add_argument("--region", default="PT", help="Region code to clean data for")
     args = parser.parse_args()
-    main(args)
+    main(region = args.region.upper())
