@@ -1,16 +1,21 @@
-import os
 import numpy as np
 import pandas as pd
 import argparse
-#from pathlib import Path
-
-#cwd = Path(__file__).parent.parent / "data"
-#cwd = os.getcwd()
-#cwd = os.path.dirname(__file__)
-#data_dir = os.path.join(cwd, 'data')
+import os
+from pathlib import Path
 
 
-def split_column(df_: pd.DataFrame) -> pd.DataFrame:
+
+
+
+# Determines the absolute path of the directory we are working on 
+FILE_DIR = Path(__file__).parent
+
+# Determines the relative path of the directory we are working on
+data_dir = FILE_DIR / 'data'
+
+
+def _split_column(df_: pd.DataFrame) -> pd.DataFrame:
     """splits a column into several, based on a comma separating diff values"""
     df = df_.copy()
     new_cols = df['unit,sex,age,geo\\time'].str.split(',', expand=True)
@@ -28,34 +33,38 @@ def extract_numeric_values_from_column(df_: pd.DataFrame, column: str) -> pd.Dat
     df[column] = pd.to_numeric(df[column], errors='coerce')
     return df
 
-
-def clean_data(region: str = "PT") -> None:
-    #print(os.path.join(data_dir, "eu_life_expectancy_raw.tsv"))
-     # Get the absolute path to the data directory
-    file_dir = os.path.dirname(os.path.abspath(__file__))
-    print("this is the file_dir", file_dir)
-    data_dir = os.path.join(file_dir, 'data')
-    print("this is the data_dir", data_dir)
+def load_data() -> pd.DataFrame:
     
-    # Load the raw data from the TSV file
+    """ Load the raw data from a TSV file"""
     file_path = os.path.join(data_dir, 'eu_life_expectancy_raw.tsv')
-    print("this is the file_path", file_path)
     df = pd.read_csv(file_path, sep='\t')
+    return df
 
-    #df = pd.read_csv(os.path.join(data_dir, "eu_life_expectancy_raw.tsv"), sep="\t")
-    df = split_column(df)
+def save_data(df_: pd.DataFrame, name_of_file: str) -> None:
+    return df_.to_csv(os.path.join(data_dir, name_of_file), index=False)
+
+def clean_data(df_: pd.DataFrame, region: str = "PT") -> None:
+    """ receives a dataframe and do some cleaning"""
+
+    df = df_.copy()
+    df = _split_column(df)
     df = df.melt(id_vars=["unit", "sex", "age", "region"], var_name="year", value_name="value")
     df = extract_numeric_values_from_column(df, "value")
     df = df.dropna(subset=["value"])
     df["year"] = df["year"].astype(int)
     df["value"] = df["value"].astype(float)
     df = df[df.region == region]
-    df.to_csv(os.path.join(data_dir, "pt_life_expectancy.csv"), index=False)
+    return df
+
+def main(region: str = "PT") -> None:
+    
+    df = load_data()
+    df_cleaned = clean_data(df, region = region)
+    save_data(df_cleaned, "pt_life_expectancy.csv")
 
 
 if __name__ == '__main__': # pragma: no cover
     parser = argparse.ArgumentParser(description="Clean life expectancy data")
     parser.add_argument("--region", default="PT", help="Region code to clean data for")
     args = parser.parse_args()
-    #data_dir = os.path.join(os.path.dirname(__file__), 'data')
-    clean_data(region = args.region.upper())
+    main(region = args.region.upper())

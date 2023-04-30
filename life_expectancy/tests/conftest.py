@@ -13,6 +13,7 @@ def run_before_and_after_tests() -> None:
     yield # this is where the testing happens
 
     # Teardown : fill with any logic you want
+    print(OUTPUT_DIR)
     file_path = OUTPUT_DIR / "pt_life_expectancy.csv"
     file_path.unlink(missing_ok=True)
 

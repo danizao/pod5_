@@ -7,7 +7,7 @@ on:
   push:
     branches: [ "master" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "*" ]
 
 jobs:
   build:
@@ -28,11 +28,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pylint pytest
-        python -m pip install -e '.[dev]'
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        pip install pytest-cov
+        python -m pip install .
     - name: Lint with pylint
       run: |
         pylint life_expectancy/cleaning.py
     - name: Test with pytest
       run: |
-        pytest life_expectancy/tests/test_cleaning.py
+        pytest life_expectancy/tests/test_cleaning.py --cov
+
