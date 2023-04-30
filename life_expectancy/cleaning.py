@@ -9,13 +9,13 @@ from pathlib import Path
 
 
 # Determines the absolute path of the directory we are working on 
-FILE_DIR = Path(___file__).parent
+FILE_DIR = Path(__file__).parent
 
 # Determines the relative path of the directory we are working on
 data_dir = FILE_DIR / 'data'
 
 
-def split_column(df_: pd.DataFrame) -> pd.DataFrame:
+def _split_column(df_: pd.DataFrame) -> pd.DataFrame:
     """splits a column into several, based on a comma separating diff values"""
     df = df_.copy()
     new_cols = df['unit,sex,age,geo\\time'].str.split(',', expand=True)
@@ -41,7 +41,7 @@ def load_data() -> pd.DataFrame:
     return df
 
 def save_data(df_: pd.DataFrame, name_of_file: str) -> None:
-    return df.to_csv(os.path.join(data_dir, name_of_file), index=False)
+    return df_.to_csv(os.path.join(data_dir, name_of_file), index=False)
 
 def clean_data(df_: pd.DataFrame, region: str = "PT") -> None:
     """ receives a dataframe and do some cleaning"""
