@@ -1,14 +1,18 @@
-import os
 import numpy as np
 import pandas as pd
 import argparse
+import os
+from pathlib import Path
+
+
+
 
 
 # Determines the absolute path of the directory we are working on 
-file_dir = os.path.dirname(os.path.abspath(__file__))
+FILE_DIR = Path(___file__).parent
 
 # Determines the relative path of the directory we are working on
-data_dir = os.path.join(file_dir, 'data')
+data_dir = FILE_DIR / 'data'
 
 
 def split_column(df_: pd.DataFrame) -> pd.DataFrame:
@@ -31,17 +35,17 @@ def extract_numeric_values_from_column(df_: pd.DataFrame, column: str) -> pd.Dat
 
 def load_data() -> pd.DataFrame:
     
-    # Load the raw data from a TSV file
+    """ Load the raw data from a TSV file"""
     file_path = os.path.join(data_dir, 'eu_life_expectancy_raw.tsv')
     df = pd.read_csv(file_path, sep='\t')
     return df
 
-def save_data(df_: pd.DataFrame) -> None:
-    df = df_.copy()
-    return df.to_csv(os.path.join(data_dir, "pt_life_expectancy.csv"), index=False)
+def save_data(df_: pd.DataFrame, name_of_file: str) -> None:
+    return df.to_csv(os.path.join(data_dir, name_of_file), index=False)
 
 def clean_data(df_: pd.DataFrame, region: str = "PT") -> None:
-    
+    """ receives a dataframe and do some cleaning"""
+
     df = df_.copy()
     df = split_column(df)
     df = df.melt(id_vars=["unit", "sex", "age", "region"], var_name="year", value_name="value")
@@ -50,14 +54,13 @@ def clean_data(df_: pd.DataFrame, region: str = "PT") -> None:
     df["year"] = df["year"].astype(int)
     df["value"] = df["value"].astype(float)
     df = df[df.region == region]
-    #df.to_csv(os.path.join(data_dir, "pt_life_expectancy.csv"), index=False)
     return df
 
-def main(region: str = "PT"):
+def main(region: str = "PT") -> None:
     
     df = load_data()
     df_cleaned = clean_data(df, region = region)
-    save_data(df_cleaned)
+    save_data(df_cleaned, "pt_life_expectancy.csv")
 
 
 if __name__ == '__main__': # pragma: no cover
