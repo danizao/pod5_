@@ -47,7 +47,7 @@ def clean_data(df_: pd.DataFrame, region: str = "PT") -> None:
     """ receives a dataframe and do some cleaning"""
 
     df = df_.copy()
-    df = split_column(df)
+    df = _split_column(df)
     df = df.melt(id_vars=["unit", "sex", "age", "region"], var_name="year", value_name="value")
     df = extract_numeric_values_from_column(df, "value")
     df = df.dropna(subset=["value"])
