@@ -3,9 +3,7 @@ import pandas as pd
 import argparse
 import os
 from pathlib import Path
-
-
-
+from utils.utils import load_data, save_data
 
 
 # Determines the absolute path of the directory we are working on 
@@ -33,15 +31,6 @@ def extract_numeric_values_from_column(df_: pd.DataFrame, column: str) -> pd.Dat
     df[column] = pd.to_numeric(df[column], errors='coerce')
     return df
 
-def load_data() -> pd.DataFrame:
-    
-    """ Load the raw data from a TSV file"""
-    file_path = os.path.join(data_dir, 'eu_life_expectancy_raw.tsv')
-    df = pd.read_csv(file_path, sep='\t')
-    return df
-
-def save_data(df_: pd.DataFrame, name_of_file: str) -> None:
-    return df_.to_csv(os.path.join(data_dir, name_of_file), index=False)
 
 def clean_data(df_: pd.DataFrame, region: str = "PT") -> None:
     """ receives a dataframe and do some cleaning"""
@@ -56,15 +45,16 @@ def clean_data(df_: pd.DataFrame, region: str = "PT") -> None:
     df = df[df.region == region]
     return df
 
-def main(region: str = "PT") -> None:
+def main(region: str = "PT", location: str = data_dir) -> pd.DataFrame:
     
-    df = load_data()
+    df = load_data(location=location, file='eu_life_expectancy_raw.tsv', sep='\t')
     df_cleaned = clean_data(df, region = region)
-    save_data(df_cleaned, "pt_life_expectancy.csv")
+    save_data(df_cleaned, f"{region}_life_expectancy.csv", location)
+    return df_cleaned
 
 
 if __name__ == '__main__': # pragma: no cover
     parser = argparse.ArgumentParser(description="Clean life expectancy data")
     parser.add_argument("--region", default="PT", help="Region code to clean data for")
     args = parser.parse_args()
-    main(region = args.region.upper())
+    main(region = args.region.upper(), location = data_dir)
