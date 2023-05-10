@@ -3,7 +3,7 @@ import pandas as pd
 import argparse
 import os
 from pathlib import Path
-from loaders import load_data, save_data
+from life_expectancy.loaders import load_data, save_data
 
 
 # Determines the absolute path of the directory we are working on 
@@ -45,9 +45,9 @@ def clean_data(df_: pd.DataFrame, region: str = "PT") -> None:
     df = df[df.region == region]
     return df
 
-def main(region: str = "PT", location: str = data_dir) -> pd.DataFrame:
+def main(region: str = "PT", file: str = 'eu_life_expectancy_raw.tsv', location: str = data_dir) -> pd.DataFrame:
     
-    df = load_data(file='eu_life_expectancy_raw.tsv')
+    df = load_data(file)
     df_cleaned = clean_data(df, region = region)
     save_data(df_cleaned, f"{region}_life_expectancy.csv", location)
     return df_cleaned

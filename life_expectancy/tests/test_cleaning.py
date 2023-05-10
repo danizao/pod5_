@@ -1,9 +1,8 @@
 """Tests for the cleaning module"""
 # from life_expectancy.cleaning import clean_data
 import pandas as pd
-from cleaning import clean_data
-
-
+#from life_expectancy.src.utils.cleaning import clean_data
+from life_expectancy.cleaning import clean_data
 
 def test_clean_data(
         eu_life_expectancy_raw: pd.DataFrame,
