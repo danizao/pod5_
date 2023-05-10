@@ -1,7 +1,7 @@
 """Tests for the cleaning module"""
 # from life_expectancy.cleaning import clean_data
 import pandas as pd
-from _cleaning import clean_data
+from cleaning import clean_data
 
 
 
