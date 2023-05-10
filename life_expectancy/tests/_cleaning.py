@@ -1,9 +1,7 @@
 import numpy as np
 import pandas as pd
-import argparse
-import os
 from pathlib import Path
-from utils.utils import load_data, save_data
+from loaders import load_data, save_data
 
 
 # Determines the absolute path of the directory we are working on 
@@ -44,17 +42,3 @@ def clean_data(df_: pd.DataFrame, region: str = "PT") -> None:
     df["value"] = df["value"].astype(float)
     df = df[df.region == region]
     return df
-
-def main(region: str = "PT", location: str = data_dir) -> pd.DataFrame:
-    
-    df = load_data(location=location, file='eu_life_expectancy_raw.tsv', sep='\t')
-    df_cleaned = clean_data(df, region = region)
-    save_data(df_cleaned, f"{region}_life_expectancy.csv", location)
-    return df_cleaned
-
-
-if __name__ == '__main__': # pragma: no cover
-    parser = argparse.ArgumentParser(description="Clean life expectancy data")
-    parser.add_argument("--region", default="PT", help="Region code to clean data for")
-    args = parser.parse_args()
-    main(region = args.region.upper(), location = data_dir)
