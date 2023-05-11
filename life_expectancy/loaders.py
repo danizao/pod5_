@@ -8,6 +8,7 @@ print(FIXTURES_DIR)
 
 def load_data(file: str) -> pd.DataFrame:
     """ load data from a file"""
+    print(BASE_DIR / file)
     return pd.read_csv(BASE_DIR / file, delimiter="\t")
 
 def save_data(df: pd.DataFrame, file: str, dir: str = FIXTURES_DIR) -> None:
