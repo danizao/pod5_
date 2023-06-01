@@ -10,7 +10,7 @@ from life_expectancy.cleaning import clean_data, extract_numeric_values_from_col
 def test_clean_data(eu_life_expectancy_raw, pt_life_expectancy_expected) -> None:
     """Run the `clean_data` function and compare the output to the expected output"""
 
-    actual = clean_data(eu_life_expectancy_raw).reset_index(drop=True)
+    actual = clean_data(eu_life_expectancy_raw)#.reset_index(drop=True)
     expected = pt_life_expectancy_expected
     pd.testing.assert_frame_equal(
         actual, expected

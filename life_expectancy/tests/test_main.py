@@ -23,7 +23,7 @@ def test_main(
     monkeypatch.setattr("life_expectancy.loaders.pd.DataFrame.to_csv", _mock_save_data)
 
     expected = pt_life_expectancy_expected
-    actual = main().reset_index(drop = True)
+    actual = main()#.reset_index(drop = True)
     pd.testing.assert_frame_equal(
         actual, expected
         )
