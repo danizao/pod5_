@@ -1,16 +1,22 @@
 """Tests for the cleaning module"""
 import pandas as pd
+import pytest
+import os
 
-from life_expectancy.cleaning import main
-from . import OUTPUT_DIR
+from pathlib import Path
 
+from life_expectancy.cleaning import clean_data, extract_numeric_values_from_column
 
-def test_clean_data(pt_life_expectancy_expected):
+def test_clean_data(eu_life_expectancy_raw, pt_life_expectancy_expected) -> None:
     """Run the `clean_data` function and compare the output to the expected output"""
-    main()
-    pt_life_expectancy_actual = pd.read_csv(
-        OUTPUT_DIR / "pt_life_expectancy.csv"
-    )
+
+    actual = clean_data(eu_life_expectancy_raw)#.reset_index(drop=True)
+    expected = pt_life_expectancy_expected
     pd.testing.assert_frame_equal(
-        pt_life_expectancy_actual, pt_life_expectancy_expected
+        actual, expected
     )
+
+def test_extract_numeric_values_from_column(numeric, numeric_expected) -> None:
+    """Run the `clean_data` function and compare the output to the expected output"""
+    actual = extract_numeric_values_from_column(numeric, "value")#.reset_index(drop=True)
+    pd.testing.assert_frame_equal(actual, numeric_expected)
