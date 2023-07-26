@@ -6,12 +6,15 @@ from life_expectancy.cleaning import clean_data
 
 # Determines the absolute path of the directory we are working on 
 FILE_DIR = Path(__file__).parent
-print(FILE_DIR)
+print("this is the FILE_DIR", FILE_DIR)
 
 # Determines the relative path of the directory we are working on
 data_dir = FILE_DIR / 'data'
+print("this is the DATA_DIR", data_dir)
 
-def main(region: str = "PT", file: str = 'eu_life_expectancy_raw.tsv', location: str = data_dir) -> pd.DataFrame:
+def main(region: str = "PT",
+         file: str = 'eu_life_expectancy_raw.tsv',
+         location: str = data_dir) -> pd.DataFrame:
     
     df = load_data(file)
     df_cleaned = clean_data(df, region = region)
