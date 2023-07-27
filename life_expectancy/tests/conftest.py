@@ -29,6 +29,10 @@ def eu_life_expectancy_raw() -> pd.DataFrame:
     """Fixture to load the raw input of the cleaning script"""
     return pd.read_csv(FIXTURES_DIR / "eu_life_expectancy_raw.tsv", delimiter="\t")
 
+@pytest.fixture()
+def eurostat_life_expect() -> pd.DataFrame:
+    """Fixture to load the raw input of the cleaning script"""
+    return pd.read_json(FIXTURES_DIR / "eurostat_life_expect.json")
 
 @pytest.fixture()
 def eu_life_expectancy_expected() -> pd.DataFrame:

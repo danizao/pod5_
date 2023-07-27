@@ -1,12 +1,25 @@
 from pathlib import Path
 import pandas as pd
 import os
+from abc import ABC, abstractmethod
 
 BASE_DIR = Path(__file__).parent / "data"
-print("this is the BASE_DIR", BASE_DIR)
 FIXTURES_DIR = Path(__file__).parent / "tests" / "fixtures"
-print("this is the FIXTURE_DIR", FIXTURES_DIR)
-print(FIXTURES_DIR)
+
+class TypeStrategy(ABC):
+    @abstractmethod
+    def load_type(self, file: str) -> pd.DataFrame:
+        """returns a Dataframe depending on the type of the file that contains the data"""
+
+class TSVStrategy(TypeStrategy):
+    def load_type(self, file: str) -> pd.DataFrame:
+        df = pd.read_csv(BASE_DIR / file, delimiter="\t")
+        return df
+
+class JSONStrategy(TypeStrategy):
+    def load_type(self, file: str) -> pd.DataFrame:
+        return pd.read_json(BASE_DIR / file)
+
 
 def load_data(file: str) -> pd.DataFrame:
     """ load data from a file"""
