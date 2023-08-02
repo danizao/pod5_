@@ -2,6 +2,7 @@ from pathlib import Path
 import pandas as pd
 import os
 from abc import ABC, abstractmethod
+from life_expectancy.enums import Country
 
 BASE_DIR = Path(__file__).parent / "data"
 FIXTURES_DIR = Path(__file__).parent / "tests" / "fixtures"
@@ -30,4 +31,17 @@ def save_data(df: pd.DataFrame, file: str, dir: str = FIXTURES_DIR) -> None:
     """save a dataframe into a file in a directory"""
     print(os.path.join(dir, file))
     return df.to_csv(os.path.join(dir, file), index=False)
+
+def file_type(country: Country, file) -> TypeStrategy:
+    available_types= {
+        ".tsv": TSVStrategy(),
+        ".json": JSONStrategy()
+    }
+    filename, file_extension = os.path.splitext(file)
+    try:
+        print(file_extension)
+        print(f"the strategy we will use is {available_types.get(file_extension)})")
+        return available_types.get(file_extension)
+    except:
+        raise Exception(f"for now Only TSV or JSON files are accepted. Got {file_extension}")
 

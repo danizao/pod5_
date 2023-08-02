@@ -35,8 +35,9 @@ def clean_data(df_: pd.DataFrame, region: str = "PT", type_strategy: TypeStrateg
     """ receives a dataframe and do some cleaning"""
 
     df = df_.copy()
+    print(df)
     if isinstance(type_strategy, TSVStrategy):
-        print("I will be using TSVStrategy")
+        print(f"I will be using TSVStrategy with {df}")
         df = _split_column(df, type_strategy)
     elif isinstance(type_strategy, JSONStrategy):
         print("I will be using JSONStrategy")
@@ -44,8 +45,12 @@ def clean_data(df_: pd.DataFrame, region: str = "PT", type_strategy: TypeStrateg
         df.columns = ['unit', 'sex', 'age', 'region', 'year', 'value']
     df = extract_numeric_values_from_column(df, "value")
     df = df.dropna(subset=["value"])
+    print(f"after droping i have {df}")
     df["year"] = df["year"].astype(int)
     df["value"] = df["value"].astype(float)
-    df = df[df.region == region]
+    print(f"before region i have {df}")
+    df = df[df.region == region.value]
+    print(region.value)
+    print(f"after region i have {df}")
     print("before finishing clean_data, this is the dataframe", df)
     return df
