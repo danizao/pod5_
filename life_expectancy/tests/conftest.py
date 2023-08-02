@@ -41,11 +41,26 @@ def eu_life_expectancy_expected() -> pd.DataFrame:
 
 @pytest.fixture()
 def numeric() -> pd.DataFrame:
-    """Fixture to load the numeric input of the cleaning script"""
+    """
+    Fixture to load the numeric input of the cleaning script
+    """
     return pd.read_csv(FIXTURES_DIR / "numeric.csv")
 
 
 @pytest.fixture()
 def numeric_expected() -> pd.DataFrame:
-    """Fixture to load the expected output of the cleaning script"""
+    """
+    Fixture to load the expected output of the cleaning script
+    """
     return pd.read_csv(FIXTURES_DIR / "numeric_expected.csv")
+
+@pytest.fixture()
+def all_actual_countries() -> list:
+    """
+    Fixture to create a list of all countries
+    """
+    return ['AT', 'BE', 'BG', 'CH', 'CY', 'CZ', 'DK', 'EE', 'EL', 'ES',
+            'FI', 'FR', 'HR', 'HU', 'IS', 'IT', 'LI', 'LT', 'LU', 'LV',
+            'MT', 'NL', 'NO', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK', 'DE',
+            'AL', 'IE', 'ME', 'MK', 'RS', 'AM', 'AZ', 'GE', 'TR', 'UA',
+            'BY', 'UK', 'XK', 'FX', 'MD', 'SM', 'RU']

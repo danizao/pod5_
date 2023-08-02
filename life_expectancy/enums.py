@@ -1,7 +1,8 @@
-from enum import Enum, unique, Flag, auto
+from enum import Enum, unique
 
 @unique
-class Country(Enum) :
+class Country(Enum):
+    """Country Class that represents the country code acceptable for running the application"""
     AT = "AT"
     BE = "BE"
     BG = "BG"
@@ -58,3 +59,8 @@ class Country(Enum) :
     MD = "MD"
     SM = "SM"
     RU = "RU"
+
+    @classmethod
+    def __actual_countries__(cls):
+        return [country.value for country in cls if 
+                len(country.value)==2 and not country.value.startswith('EU')]
