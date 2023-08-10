@@ -1,4 +1,6 @@
-"""Test suite for the 1st assignment"""
+"""
+Import directories from here
+"""
 from pathlib import Path
 
 
