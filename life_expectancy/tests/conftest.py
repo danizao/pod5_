@@ -24,12 +24,12 @@ def pt_life_expectancy_expected() -> pd.DataFrame:
     return pd.read_csv(FIXTURES_DIR / "pt_life_expectancy_expected.csv", index_col=0)
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def eu_life_expectancy_raw() -> pd.DataFrame:
     """Fixture to load the raw input of the cleaning script"""
     return pd.read_csv(FIXTURES_DIR / "eu_life_expectancy_raw.tsv", delimiter="\t")
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def eurostat_life_expect() -> pd.DataFrame:
     """Fixture to load the raw input of the cleaning script"""
     return pd.read_json(FIXTURES_DIR / "eurostat_life_expect.json")
@@ -39,7 +39,7 @@ def eu_life_expectancy_expected() -> pd.DataFrame:
     return pd.read_csv(FIXTURES_DIR / "eu_life_expectancy_expected.csv")
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def numeric() -> pd.DataFrame:
     """
     Fixture to load the numeric input of the cleaning script
@@ -47,14 +47,14 @@ def numeric() -> pd.DataFrame:
     return pd.read_csv(FIXTURES_DIR / "numeric.csv")
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def numeric_expected() -> pd.DataFrame:
     """
     Fixture to load the expected output of the cleaning script
     """
     return pd.read_csv(FIXTURES_DIR / "numeric_expected.csv")
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def all_actual_countries() -> list:
     """
     Fixture to create a list of all countries

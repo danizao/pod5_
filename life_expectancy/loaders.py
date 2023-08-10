@@ -1,11 +1,11 @@
-from pathlib import Path
-import pandas as pd
-import os
+"""
+This module implements some loaders and clss functions that helps to define different
+strategies to be used on the type of files to be used
+"""
 from abc import ABC, abstractmethod
-from life_expectancy.enums import Country
-
-BASE_DIR = Path(__file__).parent / "data"
-FIXTURES_DIR = Path(__file__).parent / "tests" / "fixtures"
+import os
+import pandas as pd
+from . import BASE_DIR, FIXTURES_DIR
 
 class TypeStrategy(ABC):
     """
@@ -31,26 +31,26 @@ class JSONStrategy(TypeStrategy):
         return pd.read_json(BASE_DIR / file)
 
 
-def load_data(file: str) -> pd.DataFrame:
+def load_data(path: str) -> pd.DataFrame:
     """ load data from a file"""
-    print('printing in load_data', BASE_DIR / file)
-    return pd.read_csv(BASE_DIR / file, delimiter="\t")
+    return pd.read_csv(path, delimiter="\t")
 
 def save_data(df: pd.DataFrame, file: str, dir: str = FIXTURES_DIR) -> None:
     """save a dataframe into a file in a directory"""
     print(os.path.join(dir, file))
     return df.to_csv(os.path.join(dir, file), index=False)
 
-def file_type(file) -> TypeStrategy:
+def file_type(file: str) -> TypeStrategy:
+    """
+    this function defines what kind of strategy to be used depending on the file type
+    """
     available_types= {
         ".tsv": TSVStrategy(),
         ".json": JSONStrategy()
     }
-    """
-    this function defines what kind of strategy to be used depending on the file type
-    """
-    filename, file_extension = os.path.splitext(file)
+
+    _, file_extension = os.path.splitext(file)
     try:
         return available_types.get(file_extension)
     except Exception as exc:
-        raise Exception(f"for now Only TSV or JSON files are accepted. Got {file_extension}") from exc
+        raise Exception(f"for now TSV or JSON files are accepted. Got {file_extension}") from exc

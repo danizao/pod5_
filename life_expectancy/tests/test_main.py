@@ -1,9 +1,6 @@
 from life_expectancy.main import main
 import pandas as pd
 from pytest import MonkeyPatch
-from life_expectancy.enums import Country
-
-
 
 def test_main(
         monkeypatch: MonkeyPatch,

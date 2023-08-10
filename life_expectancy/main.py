@@ -18,7 +18,6 @@ FILE_DIR = Path(__file__).parent
 data_dir = FILE_DIR / 'data'
 
 def main(region: str = "PT",
-        # type_strategy = None,
          file=None,
          location: str = data_dir) -> pd.DataFrame:
     """
@@ -28,7 +27,6 @@ def main(region: str = "PT",
     region = Country[region]
 
     if file is None:
-        #type_strategy = TSVStrategy()
         file = "eu_life_expectancy_raw.tsv"
 
     loader = file_type(file=file)

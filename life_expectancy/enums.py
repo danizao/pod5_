@@ -1,3 +1,5 @@
+"""
+Enums to support multiple values for a single attribute"""
 from enum import Enum, unique
 
 @unique
@@ -62,5 +64,5 @@ class Country(Enum):
 
     @classmethod
     def __actual_countries__(cls):
-        return [country.value for country in cls if 
+        return [country.value for country in cls if
                 len(country.value)==2 and not country.value.startswith('EU')]

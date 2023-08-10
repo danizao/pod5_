@@ -10,7 +10,6 @@ from life_expectancy.loaders import save_data, load_data
 
 BASE_DIR = Path(__file__).parent.parent / "data"
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
-# print(BASE_DIR)
 
 
 @patch("life_expectancy.loaders.pd.read_csv")
@@ -18,9 +17,9 @@ def test_load_data(mock_read_csv, eu_life_expectancy_expected) -> None:
 
     """testing if the load_data is called with the necessary arguments"""
     mock_read_csv.return_value = eu_life_expectancy_expected
-    input = "pt_life_expectancy_expected_test.csv"
-    actual = load_data(input)
-    mock_read_csv.assert_called_once_with(BASE_DIR / input, delimiter="\t")
+    actual = load_data(FIXTURES_DIR / "pt_life_expectancy_expected_test.csv")
+    mock_read_csv.assert_called_once_with(FIXTURES_DIR / "pt_life_expectancy_expected_test.csv",
+                                          delimiter="\t")
     pd.testing.assert_frame_equal(actual, eu_life_expectancy_expected)
 
 
@@ -48,6 +47,7 @@ def test_save_data(capfd) -> None:
     assert df.equals(loaded_df)
 
     out, _ = capfd.readouterr()
+    print(out)
     assert out == f"{expected_file_path}\n"
 
     # Clean up - remove the created file
